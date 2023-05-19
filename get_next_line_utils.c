@@ -24,20 +24,20 @@ size_t	ft_strlen(const char *s)
 	return (i);
 }
 
-char	*ft_strchr(const char *s, int c)
+char	*ft_strchr(char *s, int c)
 {
 	char	ch;
 
 	ch = (char)c;
-	if (!ch)
+	if (!s)
 	{
-		ch = (char *)malloc(sizeof(char) * 1);
-		ch[0] = '\0';
+		s = malloc(sizeof(char) * 1);
+		s[0] = '\0';
 	}
 	while (*s != '\0' && *s != ch)
 		s++;
 	if (*s == ch)
-		return ((char *)s);
+		return (s);
 	return (0);
 }
 
