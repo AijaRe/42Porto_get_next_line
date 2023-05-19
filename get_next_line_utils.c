@@ -24,31 +24,16 @@ size_t	ft_strlen(const char *s)
 	return (i);
 }
 
-char	*ft_calloc(size_t nmemb, size_t size)
-{
-	char *str;
-	int	i;
-	
-	str = malloc(nmemb * size);
-	if (!str)
-		return (NULL);
-	i = 0;
-	if (str)
-	{
-		while (i <= size)
-		{
-			str[i] = '\0';
-			i++;
-		}
-	}
-	return str;
-}
-
 char	*ft_strchr(const char *s, int c)
 {
 	char	ch;
 
 	ch = (char)c;
+	if (!ch)
+	{
+		ch = (char *)malloc(sizeof(char) * 1);
+		ch[0] = '\0';
+	}
 	while (*s != '\0' && *s != ch)
 		s++;
 	if (*s == ch)
@@ -56,28 +41,31 @@ char	*ft_strchr(const char *s, int c)
 	return (0);
 }
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin(char *s1, char *s2)
 {
 	char	*joined;
-	int	i;
-	int	j;
+	int		i;
+	int		j;
 
 	i = 0;
 	j = 0;
+	if (!s1)
+	{
+		s1 = malloc(sizeof(char) * 1);
+		s1[0] = '\0';
+	}
 	joined = (char *)malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
 	if (!joined)
 		return (NULL);
-	while (s1[i] != '\0')
-	{
+	while (s1[i++] != '\0')
 		joined[i] = s1[i];
-		i++;
-	}
 	while (s2[j] != '\0')
 	{
 		joined[i + j] = s2[j];
 		j++;
 	}
 	joined[i + j] = '\0';
+	free(s1);
 	return (joined);
 }
 
@@ -99,24 +87,4 @@ char	*ft_strdup(const char *s)
 	}
 	s2[i] = '\0';
 	return (s2);
-}
-
-char	*ft_strcpy(char *dest, char *src)
-{
-	int	i;
-
-	i = 0;
-	while (src[i] != '\0')
-	{
-		dest[i] = src[i];
-		i++;
-	}
-	dest[i] = '\0';
-	return (dest);
-}
-
-void	ft_strzero(char *str)
-{
-	while (*str)
-		*str++ = '\0';
 }

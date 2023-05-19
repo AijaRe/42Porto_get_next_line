@@ -12,49 +12,82 @@
 
 #include "get_next_line.h"
 
-char	*check_remainder(char *remainder, char **line)
+static char		*trim_remainder(char *str)
 {
-	char	*ptr_n;
+	char	*remainder;
+	int		i;
+	int		j;
 
-	ptr_n = NULL;
-	if (remainder)
+	i = 0;
+	while (str[i] && str[i] == '\n')
+		i++;
+	if (!str[i])
 	{
-		if ((ptr_n = ft_strchr(remainder, '\n')))
-		{
-			*ptr_n = '\0';
-			*line = ft_strdup(remainder);
-			ft_strcpy(remainder, ++ptr_n);
-		}
-		else
-		{
-			*line = ft_strdup(remainder);
-			ft_strzero(remainder);
-		}
+		free(str);
+		return (NULL);
 	}
-	else
-		*line = ft_calloc(sizeof(char), 1);
-	return (ptr_n);free(buff);
+	remainder = malloc(sizeof(char) * (ft_strlen(str) - i + 1));
+	if (!remainder)
+		return (NULL);
+	i++;
+	j = 0;
+	while (str[i])
+		remainder[j++] = str[i++];
+	remainder[j] = '\0';
+	free(str);
+	return (remainder);
+}
+
+static char 	*trim_new_line(char *str)
+{
+	char	*line;
+	int		i;
+
+	i = 0;
+	if (!str[i])
+		return (NULL);
+	while (str[i] != '\0' && str[i] != '\n')
+		i++;
+	line = malloc(sizeof(char) * (i + 2)); 
+	if (!line)
+		return (NULL);
+	i = 0;
+	while (str[i] && str[i] != '\n')
+	{
+		line[i] = str[i];
+		i++;
+	}
+	if (str[i] == '\n')
+		line[i++] = '\n';
+	line[i] = '\0';
+	return (line);
+}
+
 char	*get_next_line(int fd)
 {
 	char		buff[BUFFER_SIZE + 1];
 	char		*line;
-	char		*ptr_n;
-	static char	*remainder;
+	static char	*str;
 	int			bytes_read;
-	char		*tmp;
-
-	ptr_n = check_remainder(remainder, &line);
-	while (!ptr_n && (bytes_read = read(fd, buff, BUFFER_SIZE + 1)))
+	
+	if (fd < 0 || BUFFER_SIZE <= 0)
+		return (NULL);
+	bytes_read = 1;
+	while (!ft_strchr(str, '\n') && bytes_read != 0)
 	{
-		buff[bytes_read] = '\0';
-		if ((ptr_n = ft_strchr(buff, '\n')))
+		bytes_read = read(fd, buff, BUFFER_SIZE);
+		if (bytes_read == -1)
 		{
-			*ptr_n = '\0';
-			remainder = ft_strdup(++ptr_n);
+			//free(buff);
+			return (NULL);
 		}
-		tmp = line;
-		line = ft_strjoin(line, buff);
-		free (tmp);
+		buff[bytes_read] = '\0';
+		str = ft_strjoin(str, buff);
+	}
+	if (str)
+	{
+		line = trim_new_line(str);
+		str = trim_remainder(str);
 	}
 	return (line);
 }
