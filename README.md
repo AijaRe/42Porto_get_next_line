@@ -10,5 +10,7 @@ PARAMETERS
 RETURN VALUES  
 If successful, get_next_line returns a string with the full line ending in a line break (`\n`) when there is one. 
 If an error occurs, or there's nothing more to read, it returns NULL.  
+BONUS
+Read from multiple file descriptors at the same time.
 
 More info in the pdf.
