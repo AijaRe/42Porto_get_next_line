@@ -10,10 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
-/*Store in the static variable the leftover after extracting the line:
-*	locate '\n', pass one index further and copy up to the '\0'*/
 static char	*trim_remainder(char *str)
 {
 	char	*remainder;
@@ -40,9 +38,6 @@ static char	*trim_remainder(char *str)
 	return (remainder);
 }
 
-/*	Extract the line (ending in either '\n' and `\0` or only `\0`)
-*	from static variable.
-*	Return the string ending in a line break (`\n` + `\0`).*/
 static char	*trim_new_line(char *str)
 {
 	char	*line;
@@ -71,9 +66,6 @@ static char	*trim_new_line(char *str)
 	return (line);
 }
 
-/*	Accumulate buffer results into a static string.
-*	Includes '\n' and whatever comes next up to buffer size.
-*	Allocate buffer dynamically to tackle big buffer sizes.*/
 static char	*get_full_line(int fd, char *str)
 {
 	char	*buff;
@@ -99,29 +91,36 @@ static char	*get_full_line(int fd, char *str)
 	return (str);
 }
 
+/*	FOPEN_MAX defines minimum nbr of files that can be open 
+*	at the same time.
+*	To see user limit: {ulimit -n} in terminal, or hardcoded {ulimit -n -H}
+*	Pass static string with an fd index */
 char	*get_next_line(int fd)
 {
 	char		*line;
-	static char	*str;
+	static char	*str[FOPEN_MAX];
 
-	if (fd < 0 || BUFFER_SIZE <= 0)
+	if (fd < 0 || BUFFER_SIZE <= 0 || fd > FOPEN_MAX)
 		return (NULL);
-	str = get_full_line(fd, str);
-	if (!str)
+	str[fd] = get_full_line(fd, str[fd]);
+	if (!str[fd])
 		return (NULL);
-	line = trim_new_line(str);
-	str = trim_remainder(str);
+	line = trim_new_line(str[fd]);
+	str[fd] = trim_remainder(str[fd]);
 	return (line);
 }
 /*
 int	main()
 {
 int		fd;
+int		fd2;
 int		i;
 char	*line;
-char	*file = "tests/long_line";
+char	*file = "tests/short_poem";
+char	*file2 = "tests/text_lines";
 
 fd = open(file,  O_RDONLY);
+fd2 = open(file2, O_RDONLY);
 if (fd == -1)
 {
 	printf("Error opening file.\n");
@@ -133,8 +132,12 @@ while (i < 10)
 	line = get_next_line(fd);
 	printf("Line%d: %s\n", i, line);
 	free(line);
+	line = get_next_line(fd2);
+	printf("Line%d: %s\n", i+1, line);
+	free(line);
 	i++;
 }
 close(fd);
+close(fd2);
 return (0);
 }*/
