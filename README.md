@@ -6,7 +6,7 @@ DESCRIPTION
 This function takes an opened file descriptor and returns its next line.
 This function has undefined behavior when reading from a binary file.  
 PARAMETERS  
-#1. A file descriptor  
+#1. A file descriptor (int)  
 RETURN VALUES  
 If successful, get_next_line returns a string with the full line ending in a line break (`\n`) when there is one. 
 If an error occurs, or there's nothing more to read, it returns NULL.  
