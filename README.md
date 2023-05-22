@@ -28,4 +28,5 @@ More info in the subject pdf.
 ## Useful links
 
  - [Understanding get_next_line and 'read' function - nikito](https://www.youtube.com/watch?v=-Mt2FdJjVno)
+ - [Local, global & static variables - code(quoi)]([https://www.youtube.com/watch?v=-Mt2FdJjVno](https://www.codequoi.com/en/local-global-static-variables-in-c/))
 
