@@ -24,3 +24,8 @@ If successful, get_next_line returns a string with the full line ending in a lin
 Read from multiple file descriptors at the same time.
 
 More info in the subject pdf.
+
+## Useful links
+
+ - [Understanding get_next_line and 'read' function - nikito](https://www.youtube.com/watch?v=-Mt2FdJjVno)
+
