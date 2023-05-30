@@ -6,7 +6,7 @@
 /*   By: arepsa <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 14:55:41 by arepsa            #+#    #+#             */
-/*   Updated: 2023/05/18 14:55:49 by arepsa           ###   ########.fr       */
+/*   Updated: 2023/05/22 12:13:36 by arepsa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 /*Store in the static variable the leftover after extracting the line:
 *	locate '\n', pass one index further and copy up to the '\0'*/
-static char	*trim_remainder(char *str)
+static char	*get_remainder(char *str)
 {
 	char	*remainder;
 	int		i;
@@ -110,16 +110,16 @@ char	*get_next_line(int fd)
 	if (!str)
 		return (NULL);
 	line = trim_new_line(str);
-	str = trim_remainder(str);
+	str = get_remainder(str);
 	return (line);
 }
-/*
-int	main()
+
+/*int	main()
 {
 int		fd;
 int		i;
 char	*line;
-char	*file = "tests/long_line";
+char	*file = "tests/short_poem";
 
 fd = open(file,  O_RDONLY);
 if (fd == -1)
@@ -128,7 +128,7 @@ if (fd == -1)
 	return (1);
 }
 i = 1;
-while (i < 10)
+while (i < 15)
 {
 	line = get_next_line(fd);
 	printf("Line%d: %s\n", i, line);

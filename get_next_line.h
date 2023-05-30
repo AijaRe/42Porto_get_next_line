@@ -6,7 +6,7 @@
 /*   By: arepsa <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 14:55:55 by arepsa            #+#    #+#             */
-/*   Updated: 2023/05/18 14:55:59 by arepsa           ###   ########.fr       */
+/*   Updated: 2023/05/22 11:57:45 by arepsa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # include <stdlib.h>
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 10
+#  define BUFFER_SIZE 15
 # endif
 
 char	*get_next_line(int fd);

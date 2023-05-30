@@ -12,7 +12,7 @@
 
 #include "get_next_line_bonus.h"
 
-static char	*trim_remainder(char *str)
+static char	*get_remainder(char *str)
 {
 	char	*remainder;
 	int		i;
@@ -106,7 +106,7 @@ char	*get_next_line(int fd)
 	if (!str[fd])
 		return (NULL);
 	line = trim_new_line(str[fd]);
-	str[fd] = trim_remainder(str[fd]);
+	str[fd] = get_remainder(str[fd]);
 	return (line);
 }
 /*
